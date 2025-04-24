@@ -1,9 +1,7 @@
-package com.bulish.melnikov.converter.model;
+package com.bulish.melnikov.converter.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import com.bulish.melnikov.converter.model.State;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -16,14 +14,14 @@ import java.util.UUID;
 @RedisHash("ConvertRequest")
 @ToString
 @NoArgsConstructor
-public class ConvertRequest implements Serializable {
+@Builder
+@AllArgsConstructor
+public class ConverterEntity implements Serializable {
 
     @Id
     private String id;
 
     private State state;
-
-    private String convertedFilePath;
 
     private String formatTo;
 
@@ -31,7 +29,7 @@ public class ConvertRequest implements Serializable {
 
     private LocalDateTime conversionDate;
 
-    public ConvertRequest(String formatTo, String formatFrom) {
+    public ConverterEntity(String formatTo, String formatFrom) {
         this.formatTo = formatTo;
         this.formatFrom = formatFrom;
         this.state = State.INIT;
