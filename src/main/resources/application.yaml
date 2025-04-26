@@ -1,0 +1,34 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: "my-request-service-backend"
+  cloud:
+    stream:
+      bindings:
+        convert-video-result-out-O:
+          destination: convert-video
+          group: ${spring.application.name}
+        convert-audio-result-out-O:
+          destination: convert-audio
+          group: ${spring.application.name}
+        convert-file-result-out-O:
+          destination: convert-file
+          group: ${spring.application.name}
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    connection-timeout: 10s
+
+  redis:
+    host: localhost
+    port: 6379
+
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
