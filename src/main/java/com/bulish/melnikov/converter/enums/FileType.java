@@ -6,9 +6,11 @@ public enum FileType {
     FILE("convert-file-result-out-O");
 
     private final String binding;
+
     FileType(String binding) {
         this.binding = binding;
     }
+
     public String getBinding() {
         return binding;
     }

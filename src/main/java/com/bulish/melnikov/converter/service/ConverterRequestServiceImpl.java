@@ -19,8 +19,8 @@ public class ConverterRequestServiceImpl implements ConverterRequestService {
     }
 
     @Override
-    public ConverterEntity get(String convertRequestId) {
-        return requestRepo.findById(convertRequestId).orElseThrow(()
+    public ConverterEntity get(String converterEntityId) {
+        return requestRepo.findById(converterEntityId).orElseThrow(()
                 -> new RuntimeException("File not found"));
     }
 
@@ -36,7 +36,7 @@ public class ConverterRequestServiceImpl implements ConverterRequestService {
     }
 
     @Override
-    public void delete(String convertRequestId) {
-        requestRepo.deleteById(convertRequestId);
+    public void delete(String converterEntityId) {
+        requestRepo.deleteById(converterEntityId);
     }
 }

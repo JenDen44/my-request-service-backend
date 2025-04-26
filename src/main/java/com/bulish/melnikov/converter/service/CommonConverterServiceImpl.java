@@ -22,9 +22,7 @@ public class CommonConverterServiceImpl implements CommonConverterService {
 
     @Override
     public ConvertResponse processRequest(ConvertRequest request) {
-
         if (routeService.isValidExtension(request)) {
-
             var converterEntity = ConverterEntity.builder()
                     .id(UUID.randomUUID().toString())
                     .state(State.INIT)

@@ -6,9 +6,9 @@ public interface ConverterRequestService {
 
     ConverterEntity save(ConverterEntity converterEntity);
 
-    ConverterEntity get(String convertRequestId);
+    ConverterEntity get(String converterEntityId);
 
     ConverterEntity update(ConverterEntity converterEntity);
 
-    void delete(String convertRequestId);
+    void delete(String converterEntityId);
 }
