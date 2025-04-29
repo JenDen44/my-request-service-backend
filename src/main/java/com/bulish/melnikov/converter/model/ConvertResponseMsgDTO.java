@@ -9,8 +9,8 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @Builder
-@ToString
-public class ConvertRequestMsgDTO implements Serializable {
+@NoArgsConstructor
+public class ConvertResponseMsgDTO implements Serializable {
 
     private String id;
 
