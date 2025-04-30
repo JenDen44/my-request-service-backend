@@ -5,8 +5,13 @@ spring:
   application:
     name: "my-request-service-backend"
   cloud:
+    function:
+      definition: process
     stream:
       bindings:
+        process-in-0:
+          destination: convert-response
+          group: ${spring.application.name}
         convert-video-result-out-O:
           destination: convert-video
           group: ${spring.application.name}

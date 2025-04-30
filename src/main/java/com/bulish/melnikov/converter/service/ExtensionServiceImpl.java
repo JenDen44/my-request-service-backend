@@ -11,10 +11,10 @@ public class ExtensionServiceImpl implements ExtensionService {
 
         static {
             extensions = List.of(
-                    new ExtensionDto("mp4", List.of("mov"), 10),
-                    new ExtensionDto("mp3", List.of("mp4"), 10),
+                    new ExtensionDto("mp4", List.of("mov"), 100),
+                    new ExtensionDto("mp3", List.of("mp4"), 50),
                     new ExtensionDto("pdf", List.of("html", "text", "docx"), 10),
-                    new ExtensionDto("hml", List.of("pdf"), 10),
+                    new ExtensionDto("html", List.of("pdf"), 10),
                     new ExtensionDto("docx", List.of("pdf"), 10),
                     new ExtensionDto("text", List.of("pdf"), 10));
         }

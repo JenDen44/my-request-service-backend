@@ -7,12 +7,9 @@ import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-@Getter
-@Setter
-@RedisHash("ConvertRequest")
-@ToString
+@Data
+@RedisHash("ConverterEntity")
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
@@ -29,11 +26,7 @@ public class ConverterEntity implements Serializable {
 
     private LocalDateTime conversionDate;
 
-    public ConverterEntity(String formatTo, String formatFrom) {
-        this.formatTo = formatTo;
-        this.formatFrom = formatFrom;
-        this.state = State.INIT;
-        this.id = UUID.randomUUID().toString();
-        this.conversionDate = LocalDateTime.now();
-    }
+    private String convertedFilePath;
+
+    private String initialName;
 }

@@ -1,9 +1,8 @@
 package com.bulish.melnikov.converter.service;
 
 import com.bulish.melnikov.converter.entity.ConverterEntity;
-import com.bulish.melnikov.converter.model.ConvertRequest;
-import com.bulish.melnikov.converter.model.ConvertResponse;
-import com.bulish.melnikov.converter.model.State;
+import com.bulish.melnikov.converter.enums.FileType;
+import com.bulish.melnikov.converter.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,30 +18,64 @@ public class CommonConverterServiceImpl implements CommonConverterService {
 
     private final ConverterRouteService routeService;
     private final ConverterRequestService requestService;
+    private final FileService fileService;
 
     @Override
     public ConvertResponse processRequest(ConvertRequest request) {
         if (routeService.isValidExtension(request)) {
+            String fileName = fileService.getFileNameWithoutExtension(request.getFile().getOriginalFilename());
+
             var converterEntity = ConverterEntity.builder()
                     .id(UUID.randomUUID().toString())
                     .state(State.INIT)
                     .conversionDate(LocalDateTime.now())
                     .formatFrom(request.getFormatFrom())
                     .formatTo(request.getFormatTo())
+                    .initialName(fileName)
                     .build();
 
-            requestService.save(converterEntity);
+            converterEntity = requestService.save(converterEntity);
+
+            byte[] file = null;
 
             try {
-                routeService.sendRequest(request);
+                file = request.getFile().getBytes();
             } catch (IOException e) {
-               log.debug("Error while send request");
+                log.debug("Error while get bytes from multipart");
             }
 
-            return new ConvertResponse(converterEntity.getId(), converterEntity.getState());
+            FileType type = fileService.getFileTypeByContent(request.getFile());
+
+            var msg = ConvertRequestMsgDTO.builder()
+                    .file(file)
+                    .formatTo(request.getFormatTo())
+                    .formatFrom(request.getFormatFrom())
+                    .id(converterEntity.getId())
+                    .type(type)
+                    .build();
+
+                routeService.sendRequest(msg);
+
+            return ConvertResponse.builder()
+                    .id(converterEntity.getId())
+                    .state(converterEntity.getState())
+                    .build();
         }
 
         return null;
+    }
+
+    @Override
+    public void processResponse(ConvertResponseMsgDTO responseMsgDTO) {
+        ConverterEntity converterEntity = requestService.get(responseMsgDTO.getId());
+        String convertedPath = null;
+        try {
+            convertedPath = fileService.saveFile(responseMsgDTO.getFile(), responseMsgDTO.getFormatTo(), converterEntity.getInitialName());
+        } catch (IOException e) {
+            log.error("Error while save file " + e.getMessage());
+        }
+        converterEntity.setConvertedFilePath(convertedPath);
+        requestService.save(converterEntity);
     }
 
     @Override

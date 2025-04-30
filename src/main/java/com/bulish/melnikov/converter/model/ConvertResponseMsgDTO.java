@@ -5,12 +5,11 @@ import lombok.*;
 
 import java.io.Serializable;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @Builder
-@ToString
-public class ConvertRequestMsgDTO implements Serializable {
+@NoArgsConstructor
+public class ConvertResponseMsgDTO implements Serializable {
 
     private String id;
 
