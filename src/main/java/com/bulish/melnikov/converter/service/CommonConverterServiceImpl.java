@@ -72,7 +72,7 @@ public class CommonConverterServiceImpl implements CommonConverterService {
         try {
             convertedPath = fileService.saveFile(responseMsgDTO.getFile(), responseMsgDTO.getFormatTo(), converterEntity.getInitialName());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error("Error while save file " + e.getMessage());
         }
         converterEntity.setConvertedFilePath(convertedPath);
         requestService.save(converterEntity);
