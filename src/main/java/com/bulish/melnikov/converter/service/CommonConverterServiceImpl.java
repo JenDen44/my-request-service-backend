@@ -2,6 +2,7 @@ package com.bulish.melnikov.converter.service;
 
 import com.bulish.melnikov.converter.entity.ConverterEntity;
 import com.bulish.melnikov.converter.enums.FileType;
+import com.bulish.melnikov.converter.enums.State;
 import com.bulish.melnikov.converter.model.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

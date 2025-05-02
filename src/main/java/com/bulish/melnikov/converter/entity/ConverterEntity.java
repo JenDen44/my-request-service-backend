@@ -1,6 +1,6 @@
 package com.bulish.melnikov.converter.entity;
 
-import com.bulish.melnikov.converter.model.State;
+import com.bulish.melnikov.converter.enums.State;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
