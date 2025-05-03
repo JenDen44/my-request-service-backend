@@ -6,7 +6,7 @@ spring:
     name: "my-request-service-backend"
   cloud:
     function:
-      definition: process
+      definition: process;status
     stream:
       bindings:
         process-in-0:
@@ -20,6 +20,9 @@ spring:
           group: ${spring.application.name}
         convert-file-result-out-O:
           destination: convert-file
+          group: ${spring.application.name}
+        status-in-0:
+          destination: convert-status
           group: ${spring.application.name}
 
   rabbitmq:

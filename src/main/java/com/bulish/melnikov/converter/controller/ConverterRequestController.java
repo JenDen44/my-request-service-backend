@@ -25,8 +25,8 @@ public class ConverterRequestController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ConvertResponse requestStatus(@PathVariable("id") String id) {
-        return commonConverterService.getRequestStatusById(id);
+    public ConvertResponse status(@PathVariable("id") String id) {
+        return commonConverterService.status(id);
     }
 
     @GetMapping("/{id}/download")
