@@ -7,21 +7,25 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.AsyncTaskExecutor;
 
 import java.util.function.Consumer;
 
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
-public class ProcessConvertResponseFunction {
+public class ProcessEventFunction {
 
     private final CommonConverterService commonConverterService;
+    private final AsyncTaskExecutor taskExecutor;
 
     @Bean
     public Consumer<ConvertResponseMsgDTO> process() {
         return convertResponse -> {
             log.info("convert response with converted data from format {} to {}", convertResponse.getFormatFrom(), convertResponse.getFormatTo());
-            commonConverterService.processResponse(convertResponse);
+            taskExecutor.execute(() -> {
+                commonConverterService.processResponse(convertResponse);
+            });
         };
     }
 
