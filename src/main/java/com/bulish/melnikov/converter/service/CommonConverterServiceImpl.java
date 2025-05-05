@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -80,12 +82,31 @@ public class CommonConverterServiceImpl implements CommonConverterService {
     }
 
     @Override
-    public ConvertResponse getRequestStatusById(String id) {
-        return null;
+    public ConvertResponse status(String id) {
+        ConverterEntity entity = requestService.get(id);
+
+        return ConvertResponse.builder()
+                .id(entity.getId())
+                .state(entity.getState())
+                .build();
     }
 
     @Override
     public byte[] downloadConvertedFileById(String id) {
-        return new byte[0];
+        ConverterEntity entity = requestService.get(id);
+
+        if (entity.getState() != State.CONVERTED) throw new RuntimeException("File status " + entity.getState());
+        try {
+            return Files.readAllBytes(Paths.get(entity.getConvertedFilePath()));
+            } catch (IOException e) {
+                throw new RuntimeException("Error downloading file", e);
+            }
+        }
+
+    @Override
+    public void changeStatus(StatusMessageDTO statusMessageDTO) {
+        ConverterEntity entity = requestService.get(statusMessageDTO.getId());
+        entity.setState(statusMessageDTO.getState());
+        requestService.update(entity);
     }
 }
