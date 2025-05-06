@@ -31,7 +31,7 @@ public class CommonConverterServiceImpl implements CommonConverterService {
             var converterEntity = ConverterEntity.builder()
                     .id(UUID.randomUUID().toString())
                     .state(State.INIT)
-                    .conversionDate(LocalDateTime.now())
+                    .startConversionDate(LocalDateTime.now())
                     .formatFrom(request.getFormatFrom())
                     .formatTo(request.getFormatTo())
                     .initialName(fileName)
@@ -78,6 +78,8 @@ public class CommonConverterServiceImpl implements CommonConverterService {
             log.error("Error while save file " + e.getMessage());
         }
         converterEntity.setConvertedFilePath(convertedPath);
+        converterEntity.setEndConversionDate(LocalDateTime.now());
+        log.info("converterEntity reached CONVERTED State {} ", converterEntity);
         requestService.save(converterEntity);
     }
 

@@ -10,5 +10,5 @@ public interface ConverterRequestService {
 
     ConverterEntity update(ConverterEntity converterEntity);
 
-    void delete(String converterEntityId);
+    void deleteOldConverterEntities();
 }

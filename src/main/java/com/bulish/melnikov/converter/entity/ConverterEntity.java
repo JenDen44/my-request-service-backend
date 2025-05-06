@@ -24,7 +24,9 @@ public class ConverterEntity implements Serializable {
 
     private String formatFrom;
 
-    private LocalDateTime conversionDate;
+    private LocalDateTime startConversionDate;
+
+    private LocalDateTime endConversionDate;
 
     private String convertedFilePath;
 
